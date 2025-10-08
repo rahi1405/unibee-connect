@@ -8,6 +8,10 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import LevelSelection from "./pages/LevelSelection";
 import MainDashboard from "./pages/MainDashboard";
+import FolderView from "./pages/FolderView";
+import ContentView from "./pages/ContentView";
+import TeacherDashboard from "./pages/TeacherDashboard";
+import TeacherCourse from "./pages/TeacherCourse";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +28,10 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/level-selection" element={<LevelSelection />} />
           <Route path="/main-dashboard" element={<MainDashboard />} />
+          <Route path="/folder-view" element={<FolderView />} />
+          <Route path="/content-view" element={<ContentView />} />
+          <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+          <Route path="/teacher-course" element={<TeacherCourse />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

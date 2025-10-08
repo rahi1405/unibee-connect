@@ -55,7 +55,14 @@ const Auth = () => {
     setTimeout(() => {
       toast.success("Account created successfully!");
       setIsLoading(false);
-      navigate("/dashboard");
+      
+      // Extract department from student email for direct routing
+      if (userType === 'student') {
+        const deptId = email.substring(3, 5);
+        navigate(`/level-selection?dept=${deptId}`);
+      } else {
+        navigate("/teacher-dashboard");
+      }
     }, 1500);
   };
 
@@ -80,10 +87,10 @@ const Auth = () => {
       toast.success("Logged in successfully!");
       setIsLoading(false);
       
-      // Extract department from student email for routing
+      // Extract department from student email for direct routing to level selection
       if (userType === 'student') {
         const deptId = email.substring(3, 5);
-        navigate(`/dashboard?dept=${deptId}`);
+        navigate(`/level-selection?dept=${deptId}`);
       } else {
         navigate("/teacher-dashboard");
       }

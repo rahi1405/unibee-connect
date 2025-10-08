@@ -53,28 +53,27 @@ const MainDashboard = () => {
   const term = searchParams.get("term");
 
   const handleFolderClick = (folderId: string) => {
-    // Navigate to folder view - to be implemented
-    console.log(`Opening folder: ${folderId}`);
+    navigate(`/folder-view?dept=${dept}&level=${level}&term=${term}&folder=${folderId}`);
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
       {/* Header */}
-      <header className="bg-card border-b border-border shadow-sm sticky top-0 z-10">
+      <header className="bg-gradient-primary text-primary-foreground border-b border-primary-light shadow-lg sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="text-primary-foreground hover:bg-primary-light">
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <img src={logo} alt="UniBee" className="w-10 h-10" />
+            <img src={logo} alt="UniBee" className="w-10 h-10 bg-white rounded-full p-1" />
             <div>
-              <h1 className="text-2xl font-bold text-primary">UniBee</h1>
-              <p className="text-sm text-muted-foreground">
+              <h1 className="text-2xl font-bold">UniBee</h1>
+              <p className="text-sm text-primary-foreground/90">
                 Dept {dept} • Level {level} Term {term}
               </p>
             </div>
           </div>
-          <Button variant="ghost" onClick={() => navigate("/")}>
+          <Button variant="ghost" onClick={() => navigate("/")} className="text-primary-foreground hover:bg-primary-light">
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </Button>
@@ -84,11 +83,13 @@ const MainDashboard = () => {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         {/* Notice Board */}
-        <Card className="mb-8 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-secondary/5">
+        <Card className="mb-8 border-2 border-secondary/50 bg-gradient-to-r from-secondary/10 to-secondary/5 shadow-xl">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Bell className="w-6 h-6 text-primary" />
-              <CardTitle className="text-2xl">Notice Board</CardTitle>
+              <div className="bg-gradient-secondary p-2 rounded-lg">
+                <Bell className="w-6 h-6 text-secondary-foreground" />
+              </div>
+              <CardTitle className="text-2xl bg-gradient-secondary bg-clip-text text-transparent">Notice Board</CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -104,11 +105,13 @@ const MainDashboard = () => {
         </Card>
 
         {/* Routine */}
-        <Card className="mb-8">
+        <Card className="mb-8 border-2 border-primary/30 shadow-xl bg-card/80 backdrop-blur">
           <CardHeader>
             <div className="flex items-center gap-2">
-              <Calendar className="w-6 h-6 text-secondary" />
-              <CardTitle className="text-2xl">Class Routine</CardTitle>
+              <div className="bg-gradient-primary p-2 rounded-lg">
+                <Calendar className="w-6 h-6 text-white" />
+              </div>
+              <CardTitle className="text-2xl bg-gradient-primary bg-clip-text text-transparent">Class Routine</CardTitle>
             </div>
             <CardDescription>Today's schedule</CardDescription>
           </CardHeader>
@@ -141,25 +144,25 @@ const MainDashboard = () => {
 
         {/* Resource Folders */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-6">Resource Folders</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-6 bg-gradient-primary bg-clip-text text-transparent">Resource Folders</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {folders.map((folder) => {
               const Icon = folder.icon;
               return (
                 <Card
                   key={folder.id}
-                  className="cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-2 hover:border-primary"
+                  className="cursor-pointer hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 hover:border-secondary bg-card/80 backdrop-blur"
                   onClick={() => handleFolderClick(folder.id)}
                 >
                   <CardHeader>
-                    <div className={`${folder.color} p-4 rounded-lg w-fit mb-2`}>
+                    <div className={`${folder.color} p-4 rounded-xl w-fit mb-2 shadow-lg`}>
                       <Icon className="w-8 h-8 text-white" />
                     </div>
                     <CardTitle className="text-xl">{folder.name}</CardTitle>
                     <CardDescription>{folder.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="w-full border-2 hover:bg-primary hover:text-primary-foreground">
                       Open Folder
                     </Button>
                   </CardContent>
