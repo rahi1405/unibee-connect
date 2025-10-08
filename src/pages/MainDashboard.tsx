@@ -1,80 +1,59 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  FolderOpen,
-  FileText,
-  BookOpen,
+import { 
+  FolderOpen, 
+  FileText, 
+  BookOpen, 
   Link as LinkIcon,
   StickyNote,
   Bell,
   Calendar,
   ArrowLeft,
-  LogOut,
-  Upload
+  LogOut
 } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { getDepartmentName } from "@/lib/departments";
 import logo from "@/assets/logo.png";
 
-  const folders = [
-    {
-      id: "resources",
-      name: "Resources",
-      icon: FolderOpen,
-      description: "Past papers, CT questions, and senior notes",
-      color: "bg-blue-500",
-    },
-    {
-      id: "materials",
-      name: "Class Materials",
-      icon: FileText,
-      description: "Lecture slides and course materials",
-      color: "bg-green-500",
-    },
-    {
-      id: "sources",
-      name: "Sources",
-      icon: LinkIcon,
-      description: "Journal links, YouTube videos, and demos",
-      color: "bg-purple-500",
-    },
-    {
-      id: "notes",
-      name: "Notes",
-      icon: StickyNote,
-      description: "Student-uploaded notes and study materials",
-      color: "bg-amber-500",
-    },
-  ];
-
-  if (isCR) {
-    folders.push({
-      id: "upload",
-      name: "Upload",
-      icon: Upload,
-      description: "Upload notices and resources for students",
-      color: "bg-rose-500",
-    });
-  }
+const folders = [
+  {
+    id: "resources",
+    name: "Resources",
+    icon: FolderOpen,
+    description: "Past papers, CT questions, and senior notes",
+    color: "bg-blue-500",
+  },
+  {
+    id: "materials",
+    name: "Class Materials",
+    icon: FileText,
+    description: "Lecture slides and course materials",
+    color: "bg-green-500",
+  },
+  {
+    id: "sources",
+    name: "Sources",
+    icon: LinkIcon,
+    description: "Journal links, YouTube videos, and demos",
+    color: "bg-purple-500",
+  },
+  {
+    id: "notes",
+    name: "Notes",
+    icon: StickyNote,
+    description: "Student-uploaded notes and study materials",
+    color: "bg-amber-500",
+  },
+];
 
 const MainDashboard = () => {
   const navigate = useNavigate();
-  const { profile } = useAuth();
   const [searchParams] = useSearchParams();
-  const dept = searchParams.get("dept") || profile?.department_id || "";
+  const dept = searchParams.get("dept");
   const level = searchParams.get("level");
   const term = searchParams.get("term");
 
-  const isCR = profile?.role === 'cr' && profile?.is_verified;
-
   const handleFolderClick = (folderId: string) => {
-    if (folderId === "upload") {
-      navigate(`/upload-view?dept=${dept}&level=${level}&term=${term}`);
-    } else {
-      navigate(`/folder-view?dept=${dept}&level=${level}&term=${term}&folder=${folderId}`);
-    }
+    navigate(`/folder-view?dept=${dept}&level=${level}&term=${term}&folder=${folderId}`);
   };
 
   return (
@@ -90,21 +69,14 @@ const MainDashboard = () => {
             <div>
               <h1 className="text-2xl font-bold">UniBee</h1>
               <p className="text-sm text-primary-foreground/90">
-                {getDepartmentName(dept)} • Level {level} Term {term}
+                Dept {dept} • Level {level} Term {term}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            {isCR && (
-              <Badge variant="secondary" className="text-xs">
-                CR
-              </Badge>
-            )}
-            <Button variant="ghost" onClick={() => navigate("/")} className="text-primary-foreground hover:bg-primary-light">
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
-          </div>
+          <Button variant="ghost" onClick={() => navigate("/")} className="text-primary-foreground hover:bg-primary-light">
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </Button>
         </div>
       </header>
 

@@ -2,7 +2,6 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FolderOpen, FileText, Video, Link as LinkIcon, FileUp } from "lucide-react";
-import { getDepartmentName } from "@/lib/departments";
 import logo from "@/assets/logo.png";
 
 const folderContents: Record<string, Array<{ id: string; name: string; icon: any; description: string; color: string }>> = {
@@ -67,7 +66,7 @@ const FolderView = () => {
             <div>
               <h1 className="text-2xl font-bold">UniBee</h1>
               <p className="text-sm text-primary-foreground/90">
-                {getDepartmentName(dept || '')} • {folder.charAt(0).toUpperCase() + folder.slice(1)} • Level {level} Term {term}
+                {folder.charAt(0).toUpperCase() + folder.slice(1)} • Level {level} Term {term}
               </p>
             </div>
           </div>

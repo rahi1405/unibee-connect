@@ -4,17 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.png";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { signUp, signIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [isCR, setIsCR] = useState(false);
 
   // Email validation patterns
   const studentEmailPattern = /^u\d{7}@student\.cuet\.ac\.bd$/;
@@ -40,17 +36,10 @@ const Auth = () => {
     // Validate email format
     if (!validateEmail(email, userType)) {
       toast.error(
-        userType === 'student'
+        userType === 'student' 
           ? "Please use valid student email format: u2204112@student.cuet.ac.bd"
           : "Please use valid teacher email format: name@cuet.ac.bd"
       );
-      setIsLoading(false);
-      return;
-    }
-
-    // CR can only be students
-    if (isCR && userType !== 'student') {
-      toast.error("Only students can register as Class Representatives");
       setIsLoading(false);
       return;
     }
@@ -62,16 +51,11 @@ const Auth = () => {
       return;
     }
 
-    try {
-      const role = isCR ? 'cr' : userType;
-      await signUp(email, password, role);
-
-      if (isCR) {
-        toast.success("CR account created! Pending verification by admin.");
-      } else {
-        toast.success("Account created successfully!");
-      }
-
+    // Simulate signup - replace with actual backend integration
+    setTimeout(() => {
+      toast.success("Account created successfully!");
+      setIsLoading(false);
+      
       // Extract department from student email for direct routing
       if (userType === 'student') {
         const deptId = email.substring(3, 5);
@@ -79,11 +63,7 @@ const Auth = () => {
       } else {
         navigate("/teacher-dashboard");
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to create account");
-    } finally {
-      setIsLoading(false);
-    }
+    }, 1500);
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -102,10 +82,11 @@ const Auth = () => {
       return;
     }
 
-    try {
-      await signIn(email, password);
+    // Simulate login - replace with actual backend integration
+    setTimeout(() => {
       toast.success("Logged in successfully!");
-
+      setIsLoading(false);
+      
       // Extract department from student email for direct routing to level selection
       if (userType === 'student') {
         const deptId = email.substring(3, 5);
@@ -113,11 +94,7 @@ const Auth = () => {
       } else {
         navigate("/teacher-dashboard");
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to login");
-    } finally {
-      setIsLoading(false);
-    }
+    }, 1500);
   };
 
   return (
@@ -227,17 +204,6 @@ const Auth = () => {
                     type="password"
                     required
                   />
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="cr-checkbox"
-                    checked={isCR}
-                    onCheckedChange={(checked) => setIsCR(checked as boolean)}
-                  />
-                  <Label htmlFor="cr-checkbox" className="text-sm cursor-pointer">
-                    I am a Class Representative (CR) - Requires verification
-                  </Label>
                 </div>
 
                 <Button type="submit" variant="hero" className="w-full" disabled={isLoading}>

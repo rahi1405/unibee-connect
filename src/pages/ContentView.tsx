@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, FileText, Download, ThumbsUp, MessageSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { getDepartmentName } from "@/lib/departments";
 import logo from "@/assets/logo.png";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
@@ -77,7 +76,7 @@ const ContentView = () => {
             <div>
               <h1 className="text-2xl font-bold">UniBee</h1>
               <p className="text-sm text-primary-foreground/90">
-                {getDepartmentName(dept || '')} • {subfolder?.replace("-", " ").toUpperCase()}
+                {subfolder?.replace("-", " ").toUpperCase()}
               </p>
             </div>
           </div>

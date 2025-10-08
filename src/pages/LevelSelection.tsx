@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, ArrowLeft, LogOut } from "lucide-react";
-import { getDepartmentFullName } from "@/lib/departments";
 import logo from "@/assets/logo.png";
 
 const levels = [
@@ -44,7 +44,7 @@ const LevelSelection = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 text-center">
           <h2 className="text-4xl font-bold text-foreground mb-2">Select Level & Term</h2>
-          <p className="text-muted-foreground">{getDepartmentFullName(dept || '')} - Choose your current academic level and term</p>
+          <p className="text-muted-foreground">Choose your current academic level and term</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
