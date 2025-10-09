@@ -12,6 +12,7 @@ import FolderView from "./pages/FolderView";
 import ContentView from "./pages/ContentView";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import TeacherCourse from "./pages/TeacherCourse";
+import CRUpload from "./pages/CRUpload";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/content-view" element={<ContentView />} />
           <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
           <Route path="/teacher-course" element={<TeacherCourse />} />
+          <Route path="/cr-upload" element={<CRUpload />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

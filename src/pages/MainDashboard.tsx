@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,9 +11,11 @@ import {
   Bell,
   Calendar,
   ArrowLeft,
-  LogOut
+  LogOut,
+  Upload
 } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { getDepartmentName } from "@/utils/departments";
 
 const folders = [
   {
@@ -51,10 +54,42 @@ const MainDashboard = () => {
   const dept = searchParams.get("dept");
   const level = searchParams.get("level");
   const term = searchParams.get("term");
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const role = localStorage.getItem('userRole');
+    setUserRole(role);
+  }, []);
 
   const handleFolderClick = (folderId: string) => {
-    navigate(`/folder-view?dept=${dept}&level=${level}&term=${term}&folder=${folderId}`);
+    if (folderId === "upload") {
+      navigate(`/cr-upload?dept=${dept}&level=${level}&term=${term}`);
+    } else {
+      navigate(`/folder-view?dept=${dept}&level=${level}&term=${term}&folder=${folderId}`);
+    }
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    navigate("/");
+  };
+
+  const isCR = userRole === 'cr';
+
+  // Add CR upload folder if user is CR
+  const displayFolders = isCR 
+    ? [
+        ...folders,
+        {
+          id: "upload",
+          name: "Upload (CR Only)",
+          icon: Upload,
+          description: "Upload notices and resources",
+          color: "bg-rose-500",
+        }
+      ]
+    : folders;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
@@ -69,11 +104,12 @@ const MainDashboard = () => {
             <div>
               <h1 className="text-2xl font-bold">UniBee</h1>
               <p className="text-sm text-primary-foreground/90">
-                Dept {dept} • Level {level} Term {term}
+                {getDepartmentName(dept)} • Level {level} Term {term}
+                {isCR && <span className="ml-2 bg-secondary/20 px-2 py-0.5 rounded text-xs">CR</span>}
               </p>
             </div>
           </div>
-          <Button variant="ghost" onClick={() => navigate("/")} className="text-primary-foreground hover:bg-primary-light">
+          <Button variant="ghost" onClick={handleLogout} className="text-primary-foreground hover:bg-primary-light">
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </Button>
@@ -146,7 +182,7 @@ const MainDashboard = () => {
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-foreground mb-6 bg-gradient-primary bg-clip-text text-transparent">Resource Folders</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {folders.map((folder) => {
+            {displayFolders.map((folder) => {
               const Icon = folder.icon;
               return (
                 <Card

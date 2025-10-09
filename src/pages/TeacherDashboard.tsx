@@ -51,6 +51,12 @@ const TeacherDashboard = () => {
     navigate(`/teacher-course?courseId=${courseId}&level=${level}&term=${term}`);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5">
       {/* Header */}
@@ -65,7 +71,7 @@ const TeacherDashboard = () => {
           </div>
           <Button 
             variant="ghost" 
-            onClick={() => navigate("/")}
+            onClick={handleLogout}
             className="text-primary-foreground hover:bg-primary-light"
           >
             <LogOut className="mr-2 h-4 w-4" />

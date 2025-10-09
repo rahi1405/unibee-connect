@@ -23,6 +23,13 @@ const Auth = () => {
     return teacherEmailPattern.test(email);
   };
 
+  // Mock CR list - replace with actual backend verification
+  const crEmails = [
+    "u2204001@student.cuet.ac.bd",
+    "u2204050@student.cuet.ac.bd",
+    "u2204112@student.cuet.ac.bd",
+  ];
+
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -53,7 +60,17 @@ const Auth = () => {
 
     // Simulate signup - replace with actual backend integration
     setTimeout(() => {
-      toast.success("Account created successfully!");
+      const isCR = crEmails.includes(email);
+      
+      if (isCR && userType === 'student') {
+        toast.success("Account created successfully! You are verified as Class Representative.");
+        localStorage.setItem('userRole', 'cr');
+      } else {
+        toast.success("Account created successfully!");
+        localStorage.setItem('userRole', userType);
+      }
+      
+      localStorage.setItem('userEmail', email);
       setIsLoading(false);
       
       // Extract department from student email for direct routing
@@ -84,7 +101,17 @@ const Auth = () => {
 
     // Simulate login - replace with actual backend integration
     setTimeout(() => {
-      toast.success("Logged in successfully!");
+      const isCR = crEmails.includes(email);
+      
+      if (isCR && userType === 'student') {
+        toast.success("Logged in successfully! Welcome, Class Representative.");
+        localStorage.setItem('userRole', 'cr');
+      } else {
+        toast.success("Logged in successfully!");
+        localStorage.setItem('userRole', userType);
+      }
+      
+      localStorage.setItem('userEmail', email);
       setIsLoading(false);
       
       // Extract department from student email for direct routing to level selection

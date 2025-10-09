@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { BookOpen, ArrowLeft, LogOut } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { getDepartmentName } from "@/utils/departments";
 
 const levels = [
   { level: "1", terms: ["1", "2"] },
@@ -21,6 +22,12 @@ const LevelSelection = () => {
     navigate(`/main-dashboard?dept=${dept}&level=${level}&term=${term}`);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmail');
+    navigate("/");
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -31,9 +38,12 @@ const LevelSelection = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <img src={logo} alt="UniBee" className="w-10 h-10" />
-            <h1 className="text-2xl font-bold text-primary">UniBee</h1>
+            <div>
+              <h1 className="text-2xl font-bold text-primary">UniBee</h1>
+              <p className="text-sm text-muted-foreground">{getDepartmentName(dept)}</p>
+            </div>
           </div>
-          <Button variant="ghost" onClick={() => navigate("/")}>
+          <Button variant="ghost" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             Logout
           </Button>
@@ -44,7 +54,7 @@ const LevelSelection = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8 text-center">
           <h2 className="text-4xl font-bold text-foreground mb-2">Select Level & Term</h2>
-          <p className="text-muted-foreground">Choose your current academic level and term</p>
+          <p className="text-muted-foreground">{getDepartmentName(dept)} - Choose your academic level and term</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">

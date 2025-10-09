@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, FolderOpen, FileText, Video, Link as LinkIcon, FileUp } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { getDepartmentName } from "@/utils/departments";
 
 const folderContents: Record<string, Array<{ id: string; name: string; icon: any; description: string; color: string }>> = {
   resources: [
@@ -66,7 +67,7 @@ const FolderView = () => {
             <div>
               <h1 className="text-2xl font-bold">UniBee</h1>
               <p className="text-sm text-primary-foreground/90">
-                {folder.charAt(0).toUpperCase() + folder.slice(1)} • Level {level} Term {term}
+                {getDepartmentName(dept)} • {folder.charAt(0).toUpperCase() + folder.slice(1)} • L{level}T{term}
               </p>
             </div>
           </div>

@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import logo from "@/assets/logo.png";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { getDepartmentName } from "@/utils/departments";
 
 const ContentView = () => {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ const ContentView = () => {
             <div>
               <h1 className="text-2xl font-bold">UniBee</h1>
               <p className="text-sm text-primary-foreground/90">
-                {subfolder?.replace("-", " ").toUpperCase()}
+                {getDepartmentName(dept)} • {subfolder?.replace(/-/g, ' ').toUpperCase()}
               </p>
             </div>
           </div>
